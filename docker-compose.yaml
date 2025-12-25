@@ -19,7 +19,7 @@ services:
       retries: 10
 
   app:
-    build: ../../Downloads/transactions-service-master
+    build: .
     container_name: transactions-service
     depends_on:
       postgres:
