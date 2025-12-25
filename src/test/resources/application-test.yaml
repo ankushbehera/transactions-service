@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///testdb
+    username: test
+    password: test
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/master.yaml
+    contexts: test

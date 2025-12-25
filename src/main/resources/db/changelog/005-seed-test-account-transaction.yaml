@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: seed-test-account
+      author: ankush
+      context: test
+      changes:
+        - insert:
+            tableName: accounts
+            columns:
+              - column: { name: account_id, valueNumeric: 1 }
+              - column: { name: document_number, value: "12345678900" }
+
+  - changeSet:
+      id: seed-test-transactions
+      author: ankush
+      context: test
+      changes:
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: account_id, valueNumeric: 1 }
+              - column: { name: operation_type_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: -50.0 }
+              - column: { name: event_date, value: "2020-01-01T10:32:07.7199222" }
+
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: account_id, valueNumeric: 1 }
+              - column: { name: operation_type_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: -23.5 }
+              - column: { name: event_date, value: "2020-01-01T10:48:12.2135875" }
+
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: account_id, valueNumeric: 1 }
+              - column: { name: operation_type_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: -18.7 }
+              - column: { name: event_date, value: "2020-01-02T19:01:23.1458543" }
+
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: account_id, valueNumeric: 1 }
+              - column: { name: operation_type_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 60.0 }
+              - column: { name: event_date, value: "2020-01-05T09:34:18.5893223" }
+
+  - changeSet:
+      id: fix-account-seq
+      author: ankush
+      context: test
+      changes:
+        - sql: |
+            SELECT setval('accounts_account_id_seq', (SELECT MAX(account_id) FROM accounts));
+
+  - changeSet:
+      id: fix-transaction-seq
+      author: ankush
+      context: test
+      changes:
+        - sql: |
+            SELECT setval('transactions_transaction_id_seq', (SELECT MAX(transaction_id) FROM transactions));

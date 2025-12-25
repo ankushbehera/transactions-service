@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004
+      author: ankush
+      changes:
+        - insert:
+            tableName: operations_types
+            columns:
+              - column: { name: operation_type_id, value: 1 }
+              - column: { name: description, value: "CASH PURCHASE" }
+
+        - insert:
+            tableName: operations_types
+            columns:
+              - column: { name: operation_type_id, value: 2 }
+              - column: { name: description, value: "INSTALLMENT PURCHASE" }
+
+        - insert:
+            tableName: operations_types
+            columns:
+              - column: { name: operation_type_id, value: 3 }
+              - column: { name: description, value: "WITHDRAWAL" }
+
+        - insert:
+            tableName: operations_types
+            columns:
+              - column: { name: operation_type_id, value: 4 }
+              - column: { name: description, value: "PAYMENT" }

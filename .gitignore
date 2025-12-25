@@ -1,0 +1,23 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Liquibase
+*.lock
+
+# Docker
+*.pid

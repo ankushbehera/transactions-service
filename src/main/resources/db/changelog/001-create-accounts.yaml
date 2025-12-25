@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: ankush
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: account_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: document_number
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP

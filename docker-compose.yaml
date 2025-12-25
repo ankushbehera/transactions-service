@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: transactions-postgres
+    environment:
+      POSTGRES_USER: pismo
+      POSTGRES_PASSWORD: pismo
+      POSTGRES_DB: transactions
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pismo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: ../../Downloads/transactions-service-master
+    container_name: transactions-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transactions
+      SPRING_DATASOURCE_USERNAME: pismo
+      SPRING_DATASOURCE_PASSWORD: pismo
+      JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,17 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /api/v1
+spring:
+  application:
+    name: Transactions Service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transactions
+    username: pismo
+    password: pismo
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/master.yaml
+    #contexts: test
