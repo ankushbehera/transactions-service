@@ -55,38 +55,45 @@ public class TransactionServiceImpl implements TransactionService {
         //save current transaction
             // type 1,2,3 - copy balance from request amount
             //type 4 - add the final calculated balance.
-        int balanceToClear = request.amount().intValue(); //10
+        BigDecimal balanceToClear = request.amount();
 
         if (request.operationTypeId().intValue() == 4) {
+
             List<Transaction> transactionToClear =
                     transactionRepository.findTransactionForClearingByAccountId(request.accountId());
 
             List<Transaction> clearedTransaction = new ArrayList<>();
 
-            for (int i = 0; i < transactionToClear.size(); i++) {
-                Transaction transaction = transactionToClear.get(i);
-                int transactionBalance = transaction.getBalance().intValue();
-                if (balanceToClear <= 0) {
-                    balanceToClear = 0;
+            for (Transaction transaction : transactionToClear) {
+
+                if (balanceToClear.compareTo(BigDecimal.ZERO) <= 0) {
+                    balanceToClear = BigDecimal.ZERO;
                     break;
                 }
-                int newBalance = transactionBalance + balanceToClear;// to add bigDesimal
-                balanceToClear = balanceToClear + transactionBalance; // to add bigDesimal
-                if(newBalance >= 0) {
+
+                BigDecimal transactionBalance = transaction.getBalance();
+
+                BigDecimal newBalance = transactionBalance.add(balanceToClear);
+                balanceToClear = balanceToClear.add(transactionBalance);
+
+                if (newBalance.compareTo(BigDecimal.ZERO) >= 0) {
                     transaction.setBalance(BigDecimal.ZERO);
                 } else {
-                    transaction.setBalance(BigDecimal.valueOf(newBalance));
+                    transaction.setBalance(newBalance);
                 }
+
                 clearedTransaction.add(transaction);
             }
-            transactionRepository.saveAll(transactionToClear);
+
+            transactionRepository.saveAll(clearedTransaction);
         }
+
 
         Transaction transaction = Transaction.builder()
                 .account(account)
                 .operationType(operationType)
                 .amount(request.amount())
-                .balance(BigDecimal.valueOf(balanceToClear))
+                .balance(balanceToClear)
                 .eventDate(LocalDateTime.now())
                 .build();
 
@@ -97,7 +104,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .accountId(saved.getAccount().getAccountId())
                 .operationTypeId(saved.getOperationType().getOperationTypeId())
                 .amount(saved.getAmount())
-                .balance(BigDecimal.valueOf(balanceToClear))
+                .balance(balanceToClear)
                 .eventDate(saved.getEventDate())
                 .build();
     }
