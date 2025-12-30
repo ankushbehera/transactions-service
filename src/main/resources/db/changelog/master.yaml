@@ -13,3 +13,6 @@ databaseChangeLog:
 
   - include:
       file: db/changelog/005-seed-test-account-transaction.yaml
+
+  - include:
+      file: db/changelog/006-add-balance-to-transaction.yaml

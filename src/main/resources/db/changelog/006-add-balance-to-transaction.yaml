@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006
+      author: ankush
+      changes:
+        - addColumn:
+            tableName: transactions
+            columns:
+              - column:
+                  name: balance
+                  type: NUMERIC(18,2)
+                  defaultValueNumeric: 0.00
+                  constraints:
+                    nullable: false

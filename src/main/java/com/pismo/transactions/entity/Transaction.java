@@ -43,5 +43,8 @@ public class Transaction {
     private BigDecimal amount;
 
     @Column(nullable=false)
+    private BigDecimal balance;
+
+    @Column(nullable=false)
     private LocalDateTime eventDate;
 }

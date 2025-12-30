@@ -2,9 +2,19 @@ package com.pismo.transactions.repository;
 
 import com.pismo.transactions.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
+    @Query("""
+            SELECT t FROM Transaction t 
+                WHERE t.account.accountId = :accountId 
+                AND t.balance < 0
+                AND t.operationType.operationTypeId in (1,2,3)
+            """)
+    List<Transaction> findTransactionForClearingByAccountId(Long accountId);
 }

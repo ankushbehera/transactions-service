@@ -20,6 +20,8 @@ public record TransactionResponse(
 
         BigDecimal amount,
 
+        BigDecimal balance,
+
         @JsonProperty("event_date")
         LocalDateTime eventDate
 ) {}
