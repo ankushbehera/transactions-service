@@ -14,4 +14,4 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/master.yaml
-    #contexts: test
+    contexts: "!test"
